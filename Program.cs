@@ -1,60 +1,143 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace ConsoleApp1
 {
-    struct ingatlan{
-        public int id;
-        public string cim;
-        public int alap;
-        public int ar;
+    class Ingatlan
+    {
+        int id;
+        string cim;
+        double terulet;
+        int ar;
+
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+            set
+            {
+                this.id = value;
+            }
+        }
+        public string Cim
+        {
+            get
+            {
+                return this.cim;
+            }
+            set
+            {
+                this.cim = value;
+            }
+        }
+        public double Terulet
+        {
+            get
+            {
+                return this.terulet;
+            }
+            set
+            {
+                this.terulet = value;
+            }
+        }
+        public int Ar
+        {
+            get
+            {
+                return this.ar;
+            }
+            set
+            {
+                this.ar = value;
+            }
+        }
     }
-    struct ugyfel{
-        public int azon;
-        public string nev;
-        public int telefon;
+
+    class Ugyfel
+    {
+        int id;
+        string nev;
+        string telefonszam;
+
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+            set
+            {
+                this.id = value;
+            }
+        }
+        public string Nev
+        {
+            get
+            {
+                return this.nev;
+            }
+            set
+            {
+                this.nev = value;
+            }
+        }
+        public string Telefonszam
+        {
+            get
+            {
+                return this.telefonszam;
+            }
+            set
+            {
+                this.telefonszam = value;
+            }
+        }
     }
+
     class Program
     {
-        static List<ingatlan> Ingatlan(List<ingatlan> lista)
+        static List<Ingatlan> IngatlanokBeOlvas(List<Ingatlan> lista)
         {
-            ingatlan sor;
+            Ingatlan sor = new Ingatlan();
             StreamReader sr = new StreamReader(@"ingatlan.txt" + Encoding.UTF8);
             while (!sr.EndOfStream)
             {
                 string[] temp = sr.ReadLine().Split('\t');
-                sor.id = int.Parse(temp[0]);
-                sor.cim = temp[1];
-                sor.alap = int.Parse(temp[2]);
-                sor.ar = int.Parse(temp[3]);
+                sor.Id = int.Parse(temp[0]);
+                sor.Cim = temp[1];
+                sor.Terulet = int.Parse(temp[2]);
+                sor.Ar = int.Parse(temp[3]);
                 lista.Add(sor);
             }
             sr.Close();
             return lista;
         }
-        static List<ugyfel> Ugyfel(List<ugyfel> lista)
+        static List<Ugyfel> UgyfelekBeOlvas(List<Ugyfel> lista)
         {
-            ugyfel sor;
+            Ugyfel sor = new Ugyfel();
             StreamReader sr = new StreamReader(@"ugyfel.txt" + Encoding.UTF8);
             while (!sr.EndOfStream)
             {
                 string[] temp = sr.ReadLine().Split('\t');
-                sor.azon = int.Parse(temp[0]);
-                sor.nev = temp[1];
-                sor.telefon = int.Parse(temp[2]);
+                sor.Id = int.Parse(temp[0]);
+                sor.Nev = temp[1];
+                sor.Telefonszam = temp[2];
                 lista.Add(sor);
             }
             sr.Close();
             return lista;
-
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            List<ingatlan> uj =new List<ingatlan>();
-            uj = Ingatlan(uj);
+            
+                Console.ReadKey();
         }
     }
 }
