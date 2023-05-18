@@ -106,7 +106,7 @@ namespace ConsoleApp1
         static List<Ingatlan> IngatlanokBeOlvas(List<Ingatlan> lista)
         {
             Ingatlan sor = new Ingatlan();
-            StreamReader sr = new StreamReader(@"ingatlan.txt" + Encoding.UTF8);
+            StreamReader sr = new StreamReader(@"ingatlan.txt");
             while (!sr.EndOfStream)
             {
                 string[] temp = sr.ReadLine().Split('\t');
@@ -122,7 +122,7 @@ namespace ConsoleApp1
         static List<Ugyfel> UgyfelekBeOlvas(List<Ugyfel> lista)
         {
             Ugyfel sor = new Ugyfel();
-            StreamReader sr = new StreamReader(@"ugyfel.txt" + Encoding.UTF8);
+            StreamReader sr = new StreamReader(@"ugyfel.txt");
             while (!sr.EndOfStream)
             {
                 string[] temp = sr.ReadLine().Split('\t');
@@ -136,8 +136,19 @@ namespace ConsoleApp1
         }
         static void Main(string[] args)
         {
-            
-                Console.ReadKey();
+            List<Ingatlan> ingatlanok = new List<Ingatlan>();
+            IngatlanokBeOlvas(ingatlanok);
+            for (int i = 0; i < ingatlanok.Count; i++)
+            {
+                Console.WriteLine(ingatlanok[i].Id + '\t' + ingatlanok[i].Cim + '\t' + ingatlanok[i].Terulet + '\t' + ingatlanok[i].Ar);
+            }
+            List<Ugyfel> ugyfelek = new List<Ugyfel>();
+            UgyfelekBeOlvas(ugyfelek);
+            for (int i = 0; i < ugyfelek.Count; i++)
+            {
+                Console.WriteLine(ugyfelek[i].Id + '\t' + ugyfelek[i].Nev + '\t' + ugyfelek[i].Telefonszam);
+            }
+            Console.ReadKey();
         }
     }
 }
