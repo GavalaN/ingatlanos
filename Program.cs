@@ -14,6 +14,15 @@ namespace ConsoleApp1
         double terulet;
         int ar;
 
+        public Ingatlan(int id, string cim, double terulet, int ar)
+        {
+            this.id = id;
+            this.cim = cim;
+            this.terulet = terulet;
+            this.ar = ar;
+        }
+
+
         public int Id
         {
             get
@@ -65,6 +74,12 @@ namespace ConsoleApp1
         int id;
         string nev;
         string telefonszam;
+        public Ugyfel(int id, string nev, string telefonszam)
+        {
+            this.id = id;
+            this.nev = nev;
+            this.telefonszam = telefonszam;
+        }
 
         public int Id
         {
@@ -105,31 +120,22 @@ namespace ConsoleApp1
     {
         static List<Ingatlan> IngatlanokBeOlvas(List<Ingatlan> lista)
         {
-            Ingatlan sor = new Ingatlan();
             StreamReader sr = new StreamReader(@"ingatlan.txt");
             while (!sr.EndOfStream)
             {
                 string[] temp = sr.ReadLine().Split('\t');
-                sor.Id = int.Parse(temp[0]);
-                sor.Cim = temp[1];
-                sor.Terulet = int.Parse(temp[2]);
-                sor.Ar = int.Parse(temp[3]);
-                lista.Add(sor);
+                lista.Add(new Ingatlan(int.Parse(temp[0]), temp[1], int.Parse(temp[2]), int.Parse(temp[3])));
             }
             sr.Close();
             return lista;
         }
         static List<Ugyfel> UgyfelekBeOlvas(List<Ugyfel> lista)
         {
-            Ugyfel sor = new Ugyfel();
             StreamReader sr = new StreamReader(@"ugyfel.txt");
             while (!sr.EndOfStream)
             {
                 string[] temp = sr.ReadLine().Split('\t');
-                sor.Id = int.Parse(temp[0]);
-                sor.Nev = temp[1];
-                sor.Telefonszam = temp[2];
-                lista.Add(sor);
+                lista.Add(new Ugyfel(int.Parse(temp[0]), temp[1], temp[2]));
             }
             sr.Close();
             return lista;
@@ -140,13 +146,14 @@ namespace ConsoleApp1
             IngatlanokBeOlvas(ingatlanok);
             for (int i = 0; i < ingatlanok.Count; i++)
             {
-                Console.WriteLine(ingatlanok[i].Id + '\t' + ingatlanok[i].Cim + '\t' + ingatlanok[i].Terulet + '\t' + ingatlanok[i].Ar);
+                Console.WriteLine(ingatlanok[i].Id + "\t" + ingatlanok[i].Cim + "\t" + ingatlanok[i].Terulet + "\t" + ingatlanok[i].Ar);
             }
             List<Ugyfel> ugyfelek = new List<Ugyfel>();
+            Console.WriteLine();
             UgyfelekBeOlvas(ugyfelek);
             for (int i = 0; i < ugyfelek.Count; i++)
             {
-                Console.WriteLine(ugyfelek[i].Id + '\t' + ugyfelek[i].Nev + '\t' + ugyfelek[i].Telefonszam);
+                Console.WriteLine(ugyfelek[i].Id + "\t" + ugyfelek[i].Nev + "\t" + ugyfelek[i].Telefonszam);
             }
             Console.ReadKey();
         }
