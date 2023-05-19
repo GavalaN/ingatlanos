@@ -339,8 +339,45 @@ namespace ConsoleApp1
                 Console.WriteLine();
                 IngatlanokKiIr(ingatlanok);
                 UgyfelekKiIr(ugyfelek);
-                Console.ReadKey();
+                
             }
+            bool ugying = false;
+            while (!ugying)
+            {
+                bool iras = false;
+                Console.WriteLine("Szeretnél ugyfelhez ingatlant irni? (igen=true/nem=false)");
+                iras = bool.Parse(Console.ReadLine());
+                Console.WriteLine(iras);
+                if (iras)
+                {
+                    Console.WriteLine("Kérem az ügyfél azonosítóját:");
+                    int ugyfelazon = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Kérem az ingatlanok azonosítóját(0=kilepes):");
+                    int azon = -1;
+                    List<int> ingatlanazon = new List<int>();
+                    do
+                    {
+                        azon = int.Parse(Console.ReadLine());
+                        if (azon != 0)
+                        {
+                            ingatlanazon.Add(azon-1);
+                        } 
+                    } while (azon != 0);
+                    string datum = DateTime.Now.ToString("yyyyMMdd");
+                    StreamWriter sw = new StreamWriter(ugyfelazon+"_"+datum+".txt");
+                    sw.WriteLine(ugyfelek[ugyfelazon-1].Id + "\t" + ugyfelek[ugyfelazon - 1].Nev + "\t" + ugyfelek[ugyfelazon - 1].Telefonszam + "\n");
+                    for (int i = 0; i < ingatlanazon.Count; i++)
+                    {
+                        sw.WriteLine(ingatlanok[ingatlanazon[i]].Id + "\t" + ingatlanok[ingatlanazon[i]].Cim + "\t" + ingatlanok[ingatlanazon[i]].Terulet + "\t" + ingatlanok[ingatlanazon[i]].Ar);
+                    }
+                    sw.Close();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Console.ReadKey();
         }
     }
 }
