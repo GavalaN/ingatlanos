@@ -119,14 +119,14 @@ namespace ConsoleApp1
     class Program
     {
         static string ingatlanfajl = @"ingatlan.txt";
-        static string ugyfel = @"ingatlan.txt";
+        static string ugyfel = @"ugyfel.txt";
         static List<Ingatlan> IngatlanokBeOlvas(List<Ingatlan> lista)
         {
             StreamReader sr = new StreamReader(ingatlanfajl);
             while (!sr.EndOfStream)
             {
                 string[] temp = sr.ReadLine().Split('\t');
-                lista.Add(new Ingatlan(int.Parse(temp[0]), temp[1], int.Parse(temp[2]), int.Parse(temp[3])));
+                lista.Add(new Ingatlan(int.Parse(temp[0]), temp[1], double.Parse(temp[2]), int.Parse(temp[3])));
             }
             sr.Close();
             return lista;
@@ -163,39 +163,21 @@ namespace ConsoleApp1
             sw.Close();
         }
 
-        //static string UgyfelIngatlan(List<>)
         static void Main(string[] args)
         {
             List<Ingatlan> ingatlanok = new List<Ingatlan>();
             IngatlanokBeOlvas(ingatlanok);
-            for (int i = 0; i < ingatlanok.Count; i++)
-            {
-                Console.WriteLine(ingatlanok[i].Id + "\t" + ingatlanok[i].Cim + "\t" + ingatlanok[i].Terulet + "\t" + ingatlanok[i].Ar);
-            }
             List<Ugyfel> ugyfelek = new List<Ugyfel>();
-            Console.WriteLine();
             UgyfelekBeOlvas(ugyfelek);
-            for (int i = 0; i < ugyfelek.Count; i++)
-            {
-                Console.WriteLine(ugyfelek[i].Id + "\t" + ugyfelek[i].Nev + "\t" + ugyfelek[i].Telefonszam);
-            }
-            for (int i = 0; i < ingatlanok.Count; i++)
-            {
-                Console.WriteLine(ingatlanok[i].Id + "\t" + ingatlanok[i].Cim + "\t" + ingatlanok[i].Terulet + "\t" + ingatlanok[i].Ar);
-            }
-            //Console.WriteLine(IngatlanokKiIr(ingatlanok));
-
 
             int x = -9;
             bool dowhile = false;
 
             while (x != 0)
             {
-
-                Console.WriteLine("1=kiirtas,2=ingatlanfelvetel,3=ugyfelfelvetel,4=torles,0=kilep");
+                Console.WriteLine("1=kiirtas\n2=ingatlanfelvetel\n3=ugyfelfelvetel\n4=ingatlantorles\n5=ugyfeltorles\n6=ingatlanmodositas\n7=ugyfelmodositas\n0=kilep");
                 do
                 {
-
                     try
                     {
                         x = int.Parse(Console.ReadLine());
@@ -205,7 +187,6 @@ namespace ConsoleApp1
                     {
                         Console.WriteLine("Szar vagy");
                         dowhile = true;
-
                     }
                 } while (dowhile);
 
@@ -213,11 +194,12 @@ namespace ConsoleApp1
                 {
                     case 1:
                         {
+                            Console.WriteLine("\nIngatlanok:\nAzonosító\tCím\tTerület\tÁr");
                             for (int i = 0; i < ingatlanok.Count; i++)
                             {
                                 Console.WriteLine(ingatlanok[i].Id + "\t" + ingatlanok[i].Cim + "\t" + ingatlanok[i].Terulet + "\t" + ingatlanok[i].Ar);
                             }
-
+                            Console.WriteLine("\nÜgyfelek:\nAzonosító\tNév\tTelefonszám");
                             for (int i = 0; i < ugyfelek.Count; i++)
                             {
                                 Console.WriteLine(ugyfelek[i].Id + "\t" + ugyfelek[i].Nev + "\t" + ugyfelek[i].Telefonszam);
@@ -228,9 +210,9 @@ namespace ConsoleApp1
                         {
                             Console.WriteLine("Adja meg a címet!");
                             string cim = Console.ReadLine();
-                            Console.WriteLine("Adja meg az ingatlan Területét");
+                            Console.WriteLine("Adja meg az ingatlan Területét:");
                             int ter = int.Parse(Console.ReadLine());
-                            Console.WriteLine("Adja meg az ingatlan Árát");
+                            Console.WriteLine("Adja meg az ingatlan Árát:");
                             int ar = int.Parse(Console.ReadLine());
                             ingatlanok.Add(new Ingatlan(ingatlanok.Count + 1, cim, ter, ar));
                             break;
@@ -239,14 +221,13 @@ namespace ConsoleApp1
                         {
                             Console.WriteLine("Adja meg a Nevét!");
                             string nev = Console.ReadLine();
-                            Console.WriteLine("Adja meg az ingatlan Telefonszámát");
+                            Console.WriteLine("Adja meg a Telefonszámát:");
                             string tele = Console.ReadLine();
                             ugyfelek.Add(new Ugyfel(ugyfelek.Count + 1, nev, tele));
                             break;
                         }
                     case 4:
                         {
-
                             bool funi = false;
                             do
                             {
@@ -264,13 +245,100 @@ namespace ConsoleApp1
                                     Console.ResetColor();
 
                                 }
-
-
                             } while (funi);
+                            break;
+                        }
+                    case 5:
+                        {
+                            bool funi = false;
+                            do
+                            {
+                                try
+                                {
+                                    Console.WriteLine("Adja meg melyik ügyfelet akarja törölni!(Id-t adja meg!)");
+                                    ugyfelek.RemoveAt(int.Parse(Console.ReadLine()) - 1);
+                                    funi = false;
+                                }
+                                catch (Exception)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("tulment az indexen");
+                                    funi = true;
+                                    Console.ResetColor();
 
+                                }
+                            } while (funi);
+                            break;
+                        }
+                    case 6:
+                        {
+                            Console.WriteLine("Kérem adja meg az ingatlan azonosítóját:");
+                            int azon = int.Parse(Console.ReadLine());
+                            int mod = -1;
+                            while (mod != 0)
+                            {
+                                Console.WriteLine("Mit szeretne módosítani?(1=cim,2=terulet,3=ar,0=kilepes)");
+                                mod = int.Parse(Console.ReadLine());
+                                switch (mod)
+                                {
+                                    case 1:
+                                        {
+                                            Console.WriteLine("Adja meg a címet!: ");
+                                            string cim = Console.ReadLine();
+                                            ingatlanok[azon - 1].Cim = cim;
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            Console.WriteLine("Adja meg az ingatlan területét:");
+                                            int ter = int.Parse(Console.ReadLine());
+                                            ingatlanok[azon - 1].Terulet = ter;
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            Console.WriteLine("Adja meg az ingatlan árát:");
+                                            int ar = int.Parse(Console.ReadLine());
+                                            ingatlanok[azon - 1].Ar = ar;
+                                            break;
+                                        }
+                                }
+                            }
+                            break;
+                        }
+                    case 7:
+                        {
+                            Console.WriteLine("Kérem adja meg az azonosítót:");
+                            int azon = int.Parse(Console.ReadLine());
+                            int mod = -1;
+                            while (mod != 0)
+                            {
+                                Console.WriteLine("Mit szeretne módosítani?(1=nev,2=telefonszam)");
+                                mod = int.Parse(Console.ReadLine());
+                                switch (mod)
+                                {
+                                    case 1:
+                                        {
+                                            Console.WriteLine("Adja meg a Nevét!");
+                                            string nev = Console.ReadLine();
+                                            ugyfelek[azon - 1].Nev = nev;
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            Console.WriteLine("Adja meg a Telefonszámát:");
+                                            string tele = Console.ReadLine();
+                                            ugyfelek[azon - 1].Telefonszam = tele;
+                                            break;
+                                        }
+                                }
+                            }
                             break;
                         }
                 }
+                Console.WriteLine();
+                IngatlanokKiIr(ingatlanok);
+                UgyfelekKiIr(ugyfelek);
                 Console.ReadKey();
             }
         }
